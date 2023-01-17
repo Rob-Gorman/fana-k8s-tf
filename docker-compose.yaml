@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  manager:
+    image: 'ghcr.io/rob-gorman/fanarest:2.0.2'
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PW=postgres #{DB_PW}
+      - DB_PORT=5432
+      - PORT=3000
+      - REDIS_PORT=6379
+      - REDIS_HOST=my-redis #${REDIS_HOST}
+      - REDIS_DB=0 #${REDIS_DB}
+      - REDIS_PW=mypassword #${REDIS_PW}
+      - SECS_TO_EXPIRE=1000000s
+    depends_on:
+      - postgres
+      - redis
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - fana-postgres-data:/var/lib/postgresql/data/pgdata
+    environment:
+      - POSTGRES_PASSWORD=postgres #{DB_PW}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+  redis:
+    image: redis
+    hostname: my-redis
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PW=mypassword #${REDIS_PW}
+    command: redis-server --requirepass mypassword
+volumes:
+  fana-postgres-data:

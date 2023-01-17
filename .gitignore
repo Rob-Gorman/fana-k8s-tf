@@ -1,0 +1,5 @@
+notes.md
+ignore
+.terraform.lock.hcl
+.terraform
+terraform.tfstate
