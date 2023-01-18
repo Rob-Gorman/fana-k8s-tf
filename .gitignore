@@ -3,3 +3,4 @@ ignore
 .terraform.lock.hcl
 .terraform
 terraform.tfstate
+terraform.tfvars
