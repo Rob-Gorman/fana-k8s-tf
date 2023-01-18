@@ -1,18 +1,25 @@
-variable "host" {
+## Kubernetes Cluster Config
+
+variable "kube_config" {
   type = string
+  default = "~/.kube/config"
 }
 
-variable "client_certificate" {
-  type = string
-}
+# variable "host" {
+#   type = string
+# }
 
-variable "client_key" {
-  type = string
-}
+# variable "client_certificate" {
+#   type = string
+# }
 
-variable "cluster_ca_certificate" {
-  type = string
-}
+# variable "client_key" {
+#   type = string
+# }
+
+# variable "cluster_ca_certificate" {
+#   type = string
+# }
 
 ### PostgreSQL variables
 
@@ -38,4 +45,10 @@ variable "pg_port" {
   description = "port for the Postgres DB"
   type = string
   default = "5432"
+}
+
+variable "redis_pw" {
+  description = "password for redis resources"
+  type = string
+  default = "mypassword"
 }

@@ -22,7 +22,7 @@ resource "kubernetes_deployment" "manager" {
       spec {
         container {
           image = "ghcr.io/rob-gorman/fanarest:2.0.2"
-          name  = "managerContainer"
+          name  = "manager-ctr"
 
           port {
             container_port = 3000
@@ -40,7 +40,7 @@ resource "kubernetes_deployment" "manager" {
           }
           env {
             name = "DB_HOST"
-            value = ""
+            value = "postgres-postgresql"
           }
           env {
             name = "DB_NAME"
@@ -52,13 +52,11 @@ resource "kubernetes_deployment" "manager" {
           }
           env {
             name = "DB_PW"
-            value_value_from {
-              helm_release.postgres.auth.postgresPassword
-            }  
+            value = var.pg_pw
           }
           env {
             name = "DB_PORT"
-            value_from = helm_release.postgres.containerPorts.postgresql
+            value = var.pg_port
           }
           env {
             name = "PORT"
@@ -70,7 +68,7 @@ resource "kubernetes_deployment" "manager" {
           }
           env {
             name = "REDIS_HOST"
-            value ="my-redis" #${REDIS_HOST}
+            value ="redis-redis"
           }
           env {
             name = "REDIS_DB"
@@ -78,7 +76,7 @@ resource "kubernetes_deployment" "manager" {
           }
           env {
             name = "REDIS_PW"
-            value ="mypassword" #${REDIS_PW}
+            value = var.redis_pw
           }
           env {
             name = "SECS_TO_EXPIRE"
@@ -99,7 +97,7 @@ resource "kubernetes_service" "manager" {
       App = kubernetes_deployment.manager.spec.0.template.0.metadata[0].labels.App
     }
     port {
-      node_port = 30201
+      node_port = 30000
       port = 3000
       target_port = 3000
     }

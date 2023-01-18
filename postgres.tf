@@ -9,7 +9,11 @@ resource "helm_release" "postgres" {
   }
 }
 
-output "pg_service_name" {
-  description = "postgres db service host"
-  value = ""
-}
+# output "pg_service_name" {
+#   description = "postgres db service host"
+#   value = "${helm_release.postgres.metadata.name}-${helm_release.postgres.metadata.chart}"
+# }
+# output "pg_service_name" {
+#   description = "postgres db service host"
+#   value = helm_release.postgres.metadata.chart.name
+# }
